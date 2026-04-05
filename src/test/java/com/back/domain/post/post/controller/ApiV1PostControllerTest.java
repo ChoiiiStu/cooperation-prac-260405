@@ -114,11 +114,14 @@ public class ApiV1PostControllerTest {
     void t4() throws Exception {
         String title = "제목입니다";
         String content = "내용입니다";
+        String apiKey = "user1";
+
 
         ResultActions resultActions = mvc
                 .perform(
                         post("/api/v1/posts")
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", apiKey)
                                 .content("""
                                         {
                                             "title": "%s",
@@ -231,11 +234,13 @@ public class ApiV1PostControllerTest {
         int targetId = 1;
         String title = "제목 수정";
         String content = "내용 수정";
+        String apiKey = "user1";
 
         ResultActions resultActions = mvc
                 .perform(
                         put("/api/v1/posts/%d".formatted(targetId))
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", apiKey)
                                 .content("""
                                         {
                                             "title": "%s",
@@ -264,10 +269,12 @@ public class ApiV1PostControllerTest {
     @DisplayName("글 삭제")
     void t9() throws Exception {
         int targetId = 1;
+        String apiKey = "user1";
 
         ResultActions resultActions = mvc
                 .perform(
                         delete("/api/v1/posts/%d".formatted(targetId))
+                                .header("Authorization", apiKey)
                 )
                 .andDo(print());
 
