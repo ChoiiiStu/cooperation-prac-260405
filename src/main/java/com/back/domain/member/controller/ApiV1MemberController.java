@@ -20,7 +20,7 @@ public class ApiV1MemberController {
 
     private final MemberService memberService;
     private final Rq rq;
-    private final HttpServletResponse response;
+
 
     public record MemberJoinReqBody(
             String username,
@@ -81,9 +81,8 @@ public class ApiV1MemberController {
             throw new ServiceException("401-2", "비밀번호가 일치하지 않습니다.");
         }
 
-        response.addCookie(
-                new Cookie("apiKey", actor.getApiKey())
-        );
+
+        rq.addCookie("apiKey", actor.getApiKey());
 
         return new RsData<>(
                 "%s님 환영합니다.".formatted(actor.getName()),
