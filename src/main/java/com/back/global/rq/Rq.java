@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class Rq {
 
-    private final HttpServletRequest request;
+    private final HttpServletRequest request; // requesScope 포함
     private final MemberService memberService;
 
     public Member getActor() {

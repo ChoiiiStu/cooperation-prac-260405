@@ -117,9 +117,7 @@ public class ApiV1PostController {
 
         Post post = postService.findById(id).get();
 
-        if (!actor.equals(post.getAuthor())) {
-            throw new ServiceException("403-1", "수정 권한이 없습니다.");
-        }
+        post.checkModify(actor);
 
         postService.modify(id, reqBody.title, reqBody.content);
 
@@ -142,9 +140,7 @@ public class ApiV1PostController {
 
         Post post = postService.findById(id).get();
 
-        if (!actor.equals(post.getAuthor())) {
-            throw new ServiceException("403-2", "삭제 권한이 없습니다.");
-        }
+        post.checkDelete(actor);
 
         postService.deleteById(id);
 
