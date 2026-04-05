@@ -4,14 +4,12 @@ import com.back.domain.member.dto.MemberDto;
 import com.back.domain.member.entity.Member;
 import com.back.domain.member.service.MemberService;
 import com.back.global.exception.ServiceException;
+import com.back.global.rq.Rq;
 import com.back.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiV1MemberController {
 
     private final MemberService memberService;
+    private final Rq rq;
 
     public record MemberJoinReqBody(
             String username,
@@ -84,5 +83,12 @@ public class ApiV1MemberController {
                 "200-1",
                 new MemberLoginResBody(actor.getApiKey())
         );
+    }
+
+    @GetMapping("/me")
+    @Operation(summary = "내 정보 조회")
+    public MemberDto me() {
+        Member actor = rq.getActor();
+        return new MemberDto(actor);
     }
 }
