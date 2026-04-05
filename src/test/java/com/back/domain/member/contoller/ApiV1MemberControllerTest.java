@@ -187,4 +187,7 @@ public class ApiV1MemberControllerTest {
                 .andExpect(jsonPath("$.resultCode").value("401-2"))
                 .andExpect(jsonPath("$.msg").value("비밀번호가 일치하지 않습니다."));
     }
+
+
+
 }

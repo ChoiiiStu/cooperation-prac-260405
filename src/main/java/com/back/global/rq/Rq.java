@@ -22,13 +22,13 @@ public class Rq {
         }
 
         if (!authorizationHeader.startsWith("Bearer ")) {
-            throw new ServiceException("401-2", "잘못된 형식의 인증헤더입니다.");
+            throw new ServiceException("401-2", "잘못된 형식의 인증데이터입니다.");
         }
 
         String apiKey = authorizationHeader.replace("Bearer ", "");
 
         return memberService.findByApiKey(apiKey).orElseThrow(
-                () -> new ServiceException("401-1", "유효하지 않은 API 키입니다")
+                () -> new ServiceException("401-1", "유효하지 않은 API 키입니다.")
         );
     } 
 
