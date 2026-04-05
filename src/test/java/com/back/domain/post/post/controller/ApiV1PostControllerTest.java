@@ -121,7 +121,7 @@ public class ApiV1PostControllerTest {
                 .perform(
                         post("/api/v1/posts")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", apiKey)
+                                .header("Authorization", "Bearer %s".formatted(apiKey))
                                 .content("""
                                         {
                                             "title": "%s",
@@ -240,7 +240,7 @@ public class ApiV1PostControllerTest {
                 .perform(
                         put("/api/v1/posts/%d".formatted(targetId))
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", apiKey)
+                                .header("Authorization", "Bearer %s".formatted(apiKey))
                                 .content("""
                                         {
                                             "title": "%s",
@@ -274,7 +274,7 @@ public class ApiV1PostControllerTest {
         ResultActions resultActions = mvc
                 .perform(
                         delete("/api/v1/posts/%d".formatted(targetId))
-                                .header("Authorization", apiKey)
+                                .header("Authorization", "Bearer %s".formatted(apiKey))
                 )
                 .andDo(print());
 
