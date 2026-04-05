@@ -7,6 +7,7 @@ import com.back.domain.post.comment.entity.Comment;
 import com.back.domain.post.post.entity.Post;
 import com.back.domain.post.post.repository.PostRepository;
 import com.back.domain.post.post.service.PostService;
+import com.back.global.rq.Rq;
 import com.back.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +28,7 @@ public class ApiV1CommentController {
 
     private final PostService postService;
     private final MemberService memberService;
-    private final PostRepository postRepository;
+    private final Rq rq;
 
     @GetMapping
     @Operation(summary="댓글 다건 조회")
@@ -74,7 +75,7 @@ public class ApiV1CommentController {
             @PathVariable int postId,
             @RequestBody @Valid CommentWriteReqBody reqBody
     ) {
-        Member actor = memberService.findByUsername("user1").get();
+        Member actor = rq.getActor();
         Post post = postService.findById(postId).get();
         Comment comment = post.addComment(actor, reqBody.content);
 
@@ -97,8 +98,12 @@ public class ApiV1CommentController {
             @PathVariable int postId,
             @PathVariable int commentId
     ) {
+        Member actor = rq.getActor();
+
         Post post = postService.findById(postId).get();
         Comment comment = post.findCommentById(commentId).get();
+        comment.checkActorDelete(actor);
+
         post.deleteComment(commentId);
 
         return new RsData<>(
@@ -120,8 +125,11 @@ public class ApiV1CommentController {
             @PathVariable int commentId,
             @RequestBody CommentModifyReqBody reqBody
     ) {
+        Member actor = rq.getActor();
 
         Post post = postService.findById(postId).get();
+        Comment comment = post.findCommentById(commentId).get();
+        comment.checkActorModify(actor);
         post.modifyComment(commentId, reqBody.content);
 
         return new RsData<>(
