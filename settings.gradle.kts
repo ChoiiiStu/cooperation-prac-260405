@@ -1,1 +1,1 @@
-rootProject.name = "rest-api"
+rootProject.name = "self-study-auth"
