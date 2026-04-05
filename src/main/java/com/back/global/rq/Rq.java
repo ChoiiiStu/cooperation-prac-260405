@@ -37,8 +37,10 @@ public class Rq {
 
 
     public void addCookie(String name, String value) {
-        response.addCookie(
-                new Cookie(name, value)
-        );
+        Cookie cookie = new Cookie(name, value);
+        cookie.setHttpOnly(true);
+        cookie.setDomain("localhost");
+        cookie.setPath("/");
+        response.addCookie(cookie);
     }
 }
