@@ -58,8 +58,7 @@ public class ApiV1MemberController {
 
     public record MemberLoginReqBody(
             String username,
-            String password,
-            String nickname
+            String password
 
     ) {
     }
