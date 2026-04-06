@@ -48,6 +48,9 @@ public class AuthTokenServiceTest {
         byte[] keyBytes = "abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890".getBytes(StandardCharsets.UTF_8);
         SecretKey secretKey = Keys.hmacShaKeyFor(keyBytes);
 
+        byte[] keyBytes2 = "abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890sdfgdfg".getBytes(StandardCharsets.UTF_8);
+        SecretKey secretKey2 = Keys.hmacShaKeyFor(keyBytes2);
+
 
         // 발행 시간과 만료 시간 설정
         Date issuedAt = new Date();
@@ -66,7 +69,7 @@ public class AuthTokenServiceTest {
         // jwt 확인(파싱)
         Map<String, Object> parsedPayload = (Map<String, Object>) Jwts
                 .parser()
-                .verifyWith(secretKey)
+                .verifyWith(secretKey2)
                 .build()
                 .parse(jwt)
                 .getPayload();
@@ -75,6 +78,9 @@ public class AuthTokenServiceTest {
                 .containsAllEntriesOf(payload);
 
         assertThat(jwt).isNotBlank();
+
+        boolean rst = Ut.jwt.isValid(jwt, secretPattern);
+        assertThat(rst).isTrue();
 
         System.out.println("jwt = " + jwt);
     }
