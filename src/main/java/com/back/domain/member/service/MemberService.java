@@ -13,6 +13,7 @@ import java.util.UUID;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final AuthTokenService authTokenService;
 
     public Member join(String username, String password, String nickname) {
         return join(username, password, nickname, UUID.randomUUID().toString());
@@ -34,5 +35,9 @@ public class MemberService {
 
     public Optional<Member> findByApiKey(String apiKey) {
         return memberRepository.findByApiKey(apiKey);
+    }
+
+    public String genAccessToken(Member member) {
+        return authTokenService.genAccessToken(member);
     }
 }
