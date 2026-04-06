@@ -91,9 +91,22 @@ public class ApiV1MemberController {
         );
     }
 
+    @DeleteMapping("/logout")
+    @Operation(summary = "로그아웃")
+    public RsData<Void> logout() {
+
+        rq.deleteCookie("apiKey");
+
+        return new RsData(
+                "로그아웃 되었습니다.",
+                "200-1"
+        );
+    }
+
     @GetMapping("/me")
     @Operation(summary = "내 정보 조회")
     public MemberDto me() {
+
         Member actor = rq.getActor();
         return new MemberDto(actor);
     }
